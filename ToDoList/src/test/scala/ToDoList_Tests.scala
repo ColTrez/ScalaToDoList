@@ -42,4 +42,35 @@ class ToDoList_Tests extends AnyFunSuite{
     toDoList.remove("something")
     assert(toDoList.done.length == 0)
   }
+
+  test("handles attempts to remove nonexistant") {
+    val list = new ArrayBuffer[String]().addOne("nothing")
+    val toDoList = new ToDoList(list)
+
+    assert(!toDoList.remove("something"))
+  }
+
+  test("handles attempts to complete nonexistant tasks") {
+    val list = new ArrayBuffer[String]().addOne("nothing")
+    val toDoList = new ToDoList(list)
+
+    assert(!toDoList.completeTask("something"))
+  }
+
+  test("user cannot add duplicate tasks") {
+    val dupe = "something"
+    val list = new ArrayBuffer[String]().addOne(dupe)
+    val toDoList = new ToDoList(list)
+    toDoList.add(dupe)
+
+    assert(toDoList.tasks.length == 1)
+  }
+
+  test("user cannot add completed task") {
+    val dupe = "something"
+    val list = new ArrayBuffer[String]().addOne("something")
+    val toDoList = new ToDoList(done = list)
+
+    assert(!toDoList.add("something"))
+  }
 }
